@@ -1,0 +1,26 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Pause : MonoBehaviour {
+
+    public GameObject GameOverUI;
+    public static bool die = false;
+
+    void Start()
+    {
+        print("start");
+        GameOverUI.SetActive(false);
+    }
+   
+	// Update is called once per frame
+	void Update () {
+        if (die || Input.GetKeyDown("p"))
+        {
+          
+            GameOverUI.SetActive(true);
+            Time.timeScale = 0f;
+
+        }
+    }
+}
