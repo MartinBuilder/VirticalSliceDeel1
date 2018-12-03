@@ -8,9 +8,11 @@ public class Catapult : MonoBehaviour
     public float thrust;
     public Rigidbody rb;
     public Transform catapult;
+    public TrailRenderer trail;
     
     float distance = 10;
     private Vector3 cal;
+    private bool trailactive;
 
     private float xForce;
     private float yForce;
@@ -18,40 +20,48 @@ public class Catapult : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
+        trail = GetComponent<TrailRenderer>();
+
         rb.useGravity = false;
     }
 
     void Update()
     {
-        Debug.Log(cal);
         cal = new Vector3(rb.transform.position.x - catapult.transform.position.x, rb.transform.position.y - catapult.transform.position.y,0);
-        DistantansToObject();
 
-        xForce = Mathf.Abs(cal.x);
-        yForce = Mathf.Abs(cal.y);
-    }
-
-    private void DistantansToObject()
-    {
-        if (catapult)
+        if(cal.x <= 0)
         {
-            float dist = Vector3.Distance(catapult.position, transform.position);
-            print("Distance to catapult: " + dist);
+            xForce = Mathf.Abs(cal.x);
+        }
+        else
+        {
+            xForce = -Mathf.Abs(cal.x);
+        }
+        if(cal.y <= 0)
+        {
+            yForce = Mathf.Abs(cal.y);
+        }
+        else
+        {
+            yForce = -Mathf.Abs(cal.y);
+        }
+
+        if (trailactive == false)
+        {
+            trail.Clear();
         }
     }
 
     private void OnMouseDrag()
     {
-        Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
-        Vector3 objectPos = Camera.main.ScreenToWorldPoint(mousePos);
+            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
+            Vector3 objectPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        transform.position = objectPos;
+            transform.position = objectPos;
     }
     
     private void OnMouseUp()
     {
-        Debug.Log("test");
         float dist = Vector3.Distance(catapult.position, transform.position);
         if (dist >= 1)
         {
@@ -69,5 +79,7 @@ public class Catapult : MonoBehaviour
     {
         rb.AddForce(transform.right * xForce * thrust);
         rb.AddForce(transform.up * yForce * thrust);
+
+        trailactive = true;
     }
 }
