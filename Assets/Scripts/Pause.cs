@@ -5,7 +5,9 @@ using UnityEngine;
 public class Pause : MonoBehaviour {
 
     public GameObject GameOverUI;
+    public GameObject endScore;
     public static bool die = false;
+
 
     void Start()
     {
@@ -20,6 +22,7 @@ public class Pause : MonoBehaviour {
           
             GameOverUI.SetActive(true);
             Time.timeScale = 0f;
+            //endScore = endScore.score;
 
         }
     }
