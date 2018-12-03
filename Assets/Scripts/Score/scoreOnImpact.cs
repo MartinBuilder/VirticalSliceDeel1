@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class scoreOnImpact : MonoBehaviour {
 
-	
-	void Start () {
-        GetComponent<GameObject>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField]
+    private int scoreValue = 1;
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private scoreCounter scorecounter;
+
+    void Start () {
+        scorecounter = GameObject.FindObjectOfType<scoreCounter>();
+       // scorecounter.Score = 10;
+        Debug.Log(scorecounter.Score);
+	}
+	
+	
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (col.gameObject.tag == "wood");
-        Debug.Log("500 points");
+        if (collision.gameObject.tag == "wood" && collision.relativeVelocity.magnitude > 8)
+        {
+            scorecounter.Score += scoreValue;
+        }
+        Debug.Log(collision.relativeVelocity.magnitude);
     }
 }
