@@ -8,7 +8,7 @@ public class Catapult : MonoBehaviour
     public float thrust;
     public Rigidbody rb;
     public Transform catapult;
-    public TrailRenderer trail;
+    public ParticleSystem trail;
     
     float distance = 10;
     private Vector3 cal;
@@ -19,10 +19,15 @@ public class Catapult : MonoBehaviour
 
     void Start()
     {
+        GameObject varGameObject = GameObject.FindWithTag("MainCamera");
+        varGameObject.GetComponent<CameraScript>().enabled = false;
+
         rb = GetComponent<Rigidbody>();
-        trail = GetComponent<TrailRenderer>();
+        trail = GetComponent<ParticleSystem>();
 
         rb.useGravity = false;
+        
+        trail.Stop();
     }
 
     void Update()
@@ -44,11 +49,6 @@ public class Catapult : MonoBehaviour
         else
         {
             yForce = -Mathf.Abs(cal.y);
-        }
-
-        if (trailactive == false)
-        {
-            trail.Clear();
         }
     }
 
@@ -80,6 +80,9 @@ public class Catapult : MonoBehaviour
         rb.AddForce(transform.right * xForce * thrust);
         rb.AddForce(transform.up * yForce * thrust);
 
-        trailactive = true;
+        trail.Play();
+
+        GameObject varGameObject = GameObject.FindWithTag("MainCamera");
+        varGameObject.GetComponent<CameraScript>().enabled = true;
     }
 }
