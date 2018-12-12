@@ -6,9 +6,13 @@ public class Catapult : MonoBehaviour
 {
 
     public float thrust;
+    public float radius;
+    public float power;
+
     public Rigidbody rb;
     public Transform catapult;
     public ParticleSystem trail;
+    public ParticleSystem explotionpart;
     
     float distance = 10;
     private Vector3 cal;
@@ -22,9 +26,6 @@ public class Catapult : MonoBehaviour
         GameObject varGameObject = GameObject.FindWithTag("MainCamera");
         varGameObject.GetComponent<CameraScript>().enabled = false;
 
-        rb = GetComponent<Rigidbody>();
-        trail = GetComponent<ParticleSystem>();
-
         rb.useGravity = false;
         
         trail.Stop();
@@ -33,6 +34,11 @@ public class Catapult : MonoBehaviour
     void Update()
     {
         cal = new Vector3(rb.transform.position.x - catapult.transform.position.x, rb.transform.position.y - catapult.transform.position.y,0);
+
+        if(Input.GetKey(KeyCode.Space))
+        {
+            Explotion();
+        }
 
         if(cal.x <= 0)
         {
@@ -75,6 +81,11 @@ public class Catapult : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        Hit();
+    }
+
     private void Shoot()
     {
         rb.AddForce(transform.right * xForce * thrust);
@@ -84,5 +95,37 @@ public class Catapult : MonoBehaviour
 
         GameObject varGameObject = GameObject.FindWithTag("MainCamera");
         varGameObject.GetComponent<CameraScript>().enabled = true;
+    }
+
+    private void Hit()
+    {
+
+
+        trail.Stop();
+
+        GameObject varGameObject = GameObject.FindWithTag("MainCamera");
+        varGameObject.GetComponent<CameraScript>().enabled = false;
+    }
+
+    private void kill()
+    {
+        Destroy(gameObject);
+    }
+
+    public void Explotion()
+    {
+        Vector3 explosionPos = transform.position;
+        Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
+        foreach (Collider hit in colliders)
+        {
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+
+            if (rb != null)
+                rb.AddExplosionForce(power, explosionPos, radius, 3.0F);
+        }
+
+        explotionpart.Play();
+
+        kill();
     }
 }
