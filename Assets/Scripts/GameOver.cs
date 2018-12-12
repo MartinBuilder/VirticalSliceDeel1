@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pause : MonoBehaviour {
+public class GameOver : MonoBehaviour {
 
     public GameObject GameOverUI;
-    public GameObject endScore;
+    ///public GameObject endScore;
     public static bool die = false;
 
 
     void Start()
     {
-        print("start");
+   
         GameOverUI.SetActive(false);
     }
    
