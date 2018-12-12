@@ -5,13 +5,12 @@ using UnityEngine;
 public class scoreOnImpact : MonoBehaviour {
 
     [SerializeField]
-    private int scoreValue = 1;
+    private int scoreValue;
 
     private scoreCounter scorecounter;
 
     void Start () {
         scorecounter = GameObject.FindObjectOfType<scoreCounter>();
-       // scorecounter.Score = 10;
         Debug.Log(scorecounter.Score);
 	}
 	
@@ -22,6 +21,15 @@ public class scoreOnImpact : MonoBehaviour {
         {
             scorecounter.Score += scoreValue;
         }
-        Debug.Log(collision.relativeVelocity.magnitude);
+        //Debug.Log(collision.relativeVelocity.magnitude);
+
+        switch (Mathf.RoundToInt(collision.relativeVelocity.magnitude))
+        {
+            case 16:
+                Debug.Log(Mathf.RoundToInt(collision.relativeVelocity.magnitude));
+                break;
+            
+
+        }
     }
 }

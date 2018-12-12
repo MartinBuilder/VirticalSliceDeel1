@@ -23,16 +23,8 @@ public class scoreCounter : MonoBehaviour
     void Start()
     {
         textComponent = GetComponent<Text>();
-        Score = 10;
+        Score = 0;
     }
-
-
-    /*
-    void Update()
-    {
-        textComponent.text = "score: " + score;
-    }   
-    */
 }
 
    
