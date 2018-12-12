@@ -5,7 +5,7 @@ using UnityEngine;
 public class scoreOnImpact : MonoBehaviour {
 
     [SerializeField]
-    private int scoreValue;
+    private int scoreValue = 1;
 
     private scoreCounter scorecounter;
 
@@ -15,21 +15,23 @@ public class scoreOnImpact : MonoBehaviour {
 	}
 	
 	
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "wood" && collision.relativeVelocity.magnitude > 8)
+        if (collision.gameObject.tag == "wood" && collision.relativeVelocity.magnitude > 0)
         {
             scorecounter.Score += scoreValue;
+            Debug.Log(Mathf.RoundToInt(collision.relativeVelocity.magnitude));
         }
-        //Debug.Log(collision.relativeVelocity.magnitude);
+        
 
         switch (Mathf.RoundToInt(collision.relativeVelocity.magnitude))
         {
             case 16:
-                Debug.Log(Mathf.RoundToInt(collision.relativeVelocity.magnitude));
+                
                 break;
             
 
         }
+        
     }
 }
