@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Catapult : MonoBehaviour
 {
-
     public float thrust;
     public float radius;
     public float power;
+    public bool PointsActive;
 
     public Rigidbody rb;
     public Transform catapult;
     public ParticleSystem trail;
-    public ParticleSystem explotionpart;
+    //public ParticleSystem explotionpart;
     
     float distance = 10;
     private Vector3 cal;
@@ -29,6 +29,7 @@ public class Catapult : MonoBehaviour
         rb.useGravity = false;
         
         trail.Stop();
+        PointsActive = false;
     }
 
     void Update()
@@ -60,10 +61,12 @@ public class Catapult : MonoBehaviour
 
     private void OnMouseDrag()
     {
-            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
-            Vector3 objectPos = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
+        Vector3 objectPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-            transform.position = objectPos;
+        transform.position = objectPos;
+
+        PointsActive = true;
     }
     
     private void OnMouseUp()
@@ -124,7 +127,7 @@ public class Catapult : MonoBehaviour
                 rb.AddExplosionForce(power, explosionPos, radius, 3.0F);
         }
 
-        explotionpart.Play();
+        //explotionpart.Play();
 
         kill();
     }
