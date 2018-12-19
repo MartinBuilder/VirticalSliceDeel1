@@ -17,6 +17,7 @@ public class Catapult : MonoBehaviour
     float distance = 10;
     private Vector3 cal;
     private bool trailactive;
+    private bool AboutToDie;
 
     private float xForce;
     private float yForce;
@@ -30,6 +31,7 @@ public class Catapult : MonoBehaviour
         
         trail.Stop();
         PointsActive = false;
+        AboutToDie = false;
     }
 
     void Update()
@@ -89,6 +91,17 @@ public class Catapult : MonoBehaviour
         Hit();
     }
 
+    IEnumerator Example()
+    {
+        Debug.Log("test");
+        if (AboutToDie)
+        {
+            Debug.Log("AboutToDie: True");
+            yield return new WaitForSeconds(3);
+            Explotion();
+        }
+    }
+
     private void Shoot()
     {
         rb.AddForce(transform.right * xForce * thrust);
@@ -106,6 +119,7 @@ public class Catapult : MonoBehaviour
 
         trail.Stop();
 
+        AboutToDie = true;
         GameObject varGameObject = GameObject.FindWithTag("MainCamera");
         varGameObject.GetComponent<CameraScript>().enabled = false;
     }

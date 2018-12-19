@@ -17,9 +17,6 @@ public class Gui: MonoBehaviour {
         GameOverUI.SetActive(false);
         PauseUI.SetActive(false);
         WinUI.SetActive(false);
-
-
-
     }
 
     // Update is called once per frame
