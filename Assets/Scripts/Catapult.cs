@@ -18,20 +18,28 @@ public class Catapult : MonoBehaviour
     private Vector3 cal;
     private bool trailactive;
     private bool AboutToDie;
+    private bool Part;
 
     private float xForce;
     private float yForce;
 
+    public GameObject specificObject;
+    public GameObject prefabObject;
+    public GameObject objectToSpawn;
+
     void Start()
     {
+        /*
         GameObject varGameObject = GameObject.FindWithTag("MainCamera");
         varGameObject.GetComponent<CameraScript>().enabled = false;
+        */
 
         rb.useGravity = false;
         
         trail.Stop();
         PointsActive = false;
         AboutToDie = false;
+        Part = false;
     }
 
     void Update()
@@ -109,8 +117,10 @@ public class Catapult : MonoBehaviour
 
         trail.Play();
 
+        /*
         GameObject varGameObject = GameObject.FindWithTag("MainCamera");
         varGameObject.GetComponent<CameraScript>().enabled = true;
+        */
     }
 
     private void Hit()
@@ -120,8 +130,11 @@ public class Catapult : MonoBehaviour
         trail.Stop();
 
         AboutToDie = true;
+
+        /*
         GameObject varGameObject = GameObject.FindWithTag("MainCamera");
         varGameObject.GetComponent<CameraScript>().enabled = false;
+        */
     }
 
     private void kill()
@@ -138,11 +151,21 @@ public class Catapult : MonoBehaviour
             Rigidbody rb = hit.GetComponent<Rigidbody>();
 
             if (rb != null)
+            {
                 rb.AddExplosionForce(power, explosionPos, radius, 3.0F);
+                SpawnObject();
+                Part = true;
+            }
         }
 
         //explotionpart.Play();
 
         kill();
+    }
+
+    void SpawnObject()
+    {
+        Instantiate(objectToSpawn, specificObject.transform.position, specificObject.transform.rotation, prefabObject.transform);
+        Part = false;
     }
 }
