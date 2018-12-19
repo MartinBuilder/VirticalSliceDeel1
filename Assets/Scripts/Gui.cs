@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Gui: MonoBehaviour {
   
-    private GameObject GameOverUI, PauseUI;
+    private GameObject GameOverUI, PauseUI,WinUI;
 
     // Use this for initialization
     void Start()
@@ -12,9 +12,13 @@ public class Gui: MonoBehaviour {
         GameOverUI = GameObject.FindWithTag("GameOver");
        
         PauseUI = GameObject.FindWithTag("Pause");
-       GameOverUI.SetActive(false);
+        WinUI = GameObject.FindWithTag("Win");
+
+        GameOverUI.SetActive(false);
         PauseUI.SetActive(false);
-     
+        WinUI.SetActive(false);
+
+
 
     }
 
@@ -26,6 +30,14 @@ public class Gui: MonoBehaviour {
             GameOverUI.SetActive(true);
             Time.timeScale = 0f;
          
+
+        }
+        if (Input.GetKeyDown("w"))
+        {
+
+            WinUI.SetActive(true);
+            Time.timeScale = 0f;
+
 
         }
         if (Input.GetKeyDown("g"))
