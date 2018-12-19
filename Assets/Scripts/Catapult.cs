@@ -13,6 +13,7 @@ public class Catapult : MonoBehaviour
     public Transform catapult;
     public ParticleSystem trail;
     //public ParticleSystem explotionpart;
+    private bool CanShoot = true;
     
     float distance = 10;
     private Vector3 cal;
@@ -34,6 +35,8 @@ public class Catapult : MonoBehaviour
 
     void Update()
     {
+        
+
         cal = new Vector3(rb.transform.position.x - catapult.transform.position.x, rb.transform.position.y - catapult.transform.position.y,0);
 
         if(Input.GetKey(KeyCode.Space))
@@ -58,15 +61,18 @@ public class Catapult : MonoBehaviour
             yForce = -Mathf.Abs(cal.y);
         }
     }
-
+    
     private void OnMouseDrag()
     {
-        Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
-        Vector3 objectPos = Camera.main.ScreenToWorldPoint(mousePos);
+        if (CanShoot == true)
+        {
+            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, distance);
+            Vector3 objectPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        transform.position = objectPos;
+            transform.position = objectPos;
 
-        PointsActive = true;
+            PointsActive = true;
+        }
     }
     
     private void OnMouseUp()
@@ -89,15 +95,29 @@ public class Catapult : MonoBehaviour
         Hit();
     }
 
+    private void BirdInCata(Collision collision)
+    {
+        if (collision.collider.name == "Catapult")
+        {
+            CanShoot = true;
+        }
+    }
+   
+
     private void Shoot()
     {
-        rb.AddForce(transform.right * xForce * thrust);
-        rb.AddForce(transform.up * yForce * thrust);
+        if (CanShoot == true)
+        {
+            rb.AddForce(transform.right * xForce * thrust);
+            rb.AddForce(transform.up * yForce * thrust);
 
-        trail.Play();
+            trail.Play();
 
-        GameObject varGameObject = GameObject.FindWithTag("MainCamera");
-        varGameObject.GetComponent<CameraScript>().enabled = true;
+            GameObject varGameObject = GameObject.FindWithTag("MainCamera");
+            
+            varGameObject.GetComponent<CameraScript>().enabled = true;
+            CanShoot = false;
+        }
     }
 
     private void Hit()
