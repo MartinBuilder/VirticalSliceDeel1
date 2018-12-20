@@ -99,6 +99,7 @@ public class Catapult : MonoBehaviour
         Hit();
     }
 
+    /*
     IEnumerator Example()
     {
         Debug.Log("test");
@@ -109,6 +110,7 @@ public class Catapult : MonoBehaviour
             Explotion();
         }
     }
+    */
 
     private void Shoot()
     {
@@ -153,7 +155,7 @@ public class Catapult : MonoBehaviour
             if (rb != null)
             {
                 rb.AddExplosionForce(power, explosionPos, radius, 3.0F);
-                SpawnObject();
+                //SpawnObject();
                 Part = true;
             }
         }
@@ -163,9 +165,11 @@ public class Catapult : MonoBehaviour
         kill();
     }
 
+    /*
     void SpawnObject()
     {
         Instantiate(objectToSpawn, specificObject.transform.position, specificObject.transform.rotation, prefabObject.transform);
         Part = false;
     }
+    */
 }
